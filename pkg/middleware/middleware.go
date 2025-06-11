@@ -740,7 +740,7 @@ func (s *SouinBaseHandler) ServeHTTP(rw http.ResponseWriter, rq *http.Request, n
 			customWriter.WriteHeader(http.StatusGatewayTimeout)
 			s.Configuration.GetLogger().Sugar().Infof("Internal server error on endpoint %s: %v", req.URL, s.Storers)
 			rw.Header().Set("Cache-Status", cacheName+"; fwd=bypass; detail=DEADLINE-EXCEEDED")
-			rw.WriteHeader(http.StatusGatewayTimeout)
+			_, _ = customWriter.Send()
 			//_, _ = customWriter.Rw.Write([]byte("Internal server error"))
 			return nil
 		case baseCtx.Canceled:
